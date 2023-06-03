@@ -1252,3 +1252,7 @@ Diverged: False
 2023-06-03 13:22:15,862 [base_deploy.py:log_info()] - Application crowsnest: Channel: dev, Need Channel Update: False
 2023-06-03 13:22:15,862 [base_deploy.py:log_info()] - Application crowsnest: Validity check for git repo passed
 2023-06-03 14:26:58,224 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 127.0.0.1
+2023-06-03 15:02:43,024 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.103
+2023-06-03 15:02:43,028 [app.py:log_request()] - 101 GET /websocket (192.168.1.103) [_TRUSTED_USER_] 7.83ms
+2023-06-03 15:02:43,028 [websockets.py:open()] - Websocket Opened: ID: 547428928048, Proxied: True, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36, Host Name: 192.168.1.130
+2023-06-03 15:02:43,036 [websockets.py:_handle_identify()] - Websocket 547428928048 Client Identified - Name: mainsail, Version: 2.5.1, Type: web

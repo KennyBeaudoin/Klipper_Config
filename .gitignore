@@ -13,4 +13,5 @@ printer_data/gcodes/*/*
 !klipper-led_effect/*/*
 !mainsail/*/*
 !printer_data/*/*
+printer_data/*/printer-*.cfg
 
