@@ -1,0 +1,3 @@
+[submodule "crowsnest"]
+	path = crowsnest
+	url = ./crowsnest/
