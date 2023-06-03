@@ -1,0 +1,1254 @@
+--------------------Moonraker Log Start--------------------
+data_path: /home/pi/printer_data
+is_default_data_path: False
+config_file: /home/pi/printer_data/config/moonraker.conf
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: False
+log_file: /home/pi/printer_data/logs/moonraker.log
+software_version: v0.8.0-40-gb21f177
+python_version: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+klippy_uds_address = /home/pi/printer_data/comms/klippy.sock
+
+[authorization]
+trusted_clients = 
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+cors_domains = 
+	http://*.lan
+	http://*.local
+	https://my.mainsail.xyz
+	http://my.mainsail.xyz
+	https://app.fluidd.xyz
+	http://app.fluidd.xyz
+
+[octoprint_compat]
+
+[history]
+
+[update_manager]
+channel = dev
+refresh_interval = 168
+
+[update_manager mainsail]
+type = web
+channel = stable
+repo = mainsail-crew/mainsail
+path = ~/mainsail
+
+[update_manager led_effect]
+type = git_repo
+path = ~/klipper-led_effect
+origin = https://github.com/julianschill/klipper-led_effect.git
+is_system_service = False
+
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+install_script = tools/install.sh
+
+#################################################################
+All Configuration Files:
+/home/pi/printer_data/config/moonraker.conf
+#################################################################
+Unsafe Shutdown Count: 36
+
+System Info:
+
+***python***
+  version: sys.version_info(major=3, minor=9, micro=2, releaselevel='final', serial=0)
+  version_string: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 64bit
+  processor: aarch64
+  cpu_desc: 
+  serial_number: 10000000d45ec09c
+  hardware_desc: BCM2835
+  model: Raspberry Pi 4 Model B Rev 1.2
+  total_memory: 1842528
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 73
+  manufacturer: Unknown
+  oem_id: 4247
+  product_name: NCard
+  product_revision: 1.0
+  serial_number: 2133544a
+  manufacturer_date: 9/2012
+  capacity: 14.8 GiB
+  total_bytes: 15912140800
+
+***distribution***
+  name: Debian GNU/Linux 11 (bullseye)
+  id: debian
+  version: 11
+  version_parts: {'major': '11', 'minor': '', 'build_number': ''}
+  like: 
+  codename: bullseye
+  release_info: {}
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['-.mount', 'sysinit.target', 'system.slice', 'network-online.target']
+**After=['basic.target', 'system.slice', 'network-online.target', 'systemd-journald.socket', 'sysinit.target', '-.mount']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/pi/printer_data/systemd/moonraker.env
+**ExecStart=/home/pi/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=/home/pi/moonraker
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=pi
+
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['sysinit.target', '-.mount', 'system.slice']
+**After=['network-online.target', '-.mount', 'systemd-journald.socket', 'basic.target', 'sysinit.target', 'system.slice', 'klipper-mcu.service']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+Klipper Version: v0.11.0-198-g33b18fd6-dirty
+2023-06-03 07:02:03,807 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.103
+2023-06-03 07:02:03,811 [app.py:log_request()] - 101 GET /websocket (192.168.1.103) [_TRUSTED_USER_] 8.39ms
+2023-06-03 07:02:03,812 [websockets.py:open()] - Websocket Opened: ID: 548193789888, Proxied: True, User Agent: BBL-Slicer/v01.06.00.66 (dark) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 192.168.1.130
+2023-06-03 07:02:03,821 [websockets.py:_handle_identify()] - Websocket 548193789888 Client Identified - Name: mainsail, Version: 2.5.1, Type: web
+2023-06-03 07:04:04,609 [job_state.py:_status_update()] - Job Started: Cylinder_PLA_22m36s.gcode
+2023-06-03 07:19:22,833 [app.py:log_request()] - 201 POST /server/files/upload (192.168.1.103) [_TRUSTED_USER_] 20.47ms
+2023-06-03 07:19:23,913 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2023-06-03 07:19:23,930 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 127.0.0.1
+2023-06-03 07:19:23,942 [app.py:log_request()] - 404 GET /machine/device_power/devices (127.0.0.1) [No User] 2.78ms
+2023-06-03 07:19:25,173 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2023-06-03 07:19:27,468 [app.py:log_request()] - 404 GET /machine/device_power/devices (127.0.0.1) [No User] 2.37ms
+2023-06-03 07:19:27,824 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2023-06-03 07:19:33,259 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2023-06-03 07:19:33,260 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2023-06-03 07:19:33,509 [job_state.py:_handle_started()] - Job state initialized: standby
+2023-06-03 07:19:33,770 [klippy_connection.py:_check_ready()] - Klippy ready
+2023-06-03 07:19:34,267 [data_store.py:_init_sensors()] - Configuring available sensors: ['temperature_sensor raspberry_pi', 'heater_bed', 'temperature_fan BTT', 'extruder']
+2023-06-03 07:20:15,478 [shell_command.py:run_with_response()] - /home/pi/moonraker-env/bin/python: Object Processing is disabled
+
+2023-06-03 07:20:15,478 [shell_command.py:_check_proc_success()] - Command (/home/pi/moonraker-env/bin/python /home/pi/moonraker/moonraker/components/file_manager/metadata.py -p /home/pi/printer_data/gcodes -f "Cylinder_PLA_31m24s.gcode") successfully finished
+2023-06-03 07:20:15,501 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <.thumbs/Cylinder_PLA_31m24s-300x300.png>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <.thumbs/Cylinder_PLA_31m24s-300x300.png>
+2023-06-03 07:20:15,502 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <.thumbs/Cylinder_PLA_31m24s-32x32.png>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <.thumbs/Cylinder_PLA_31m24s-32x32.png>
+2023-06-03 07:20:15,506 [app.py:log_request()] - 201 POST /api/files/local (192.168.1.103) [_TRUSTED_USER_] 2239.57ms
+2023-06-03 07:20:15,632 [job_state.py:_status_update()] - Job Started: Cylinder_PLA_31m24s.gcode
+2023-06-03 07:23:20,565 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 60.00 seconds
+2023-06-03 07:24:20,568 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 120.00 seconds
+2023-06-03 07:25:20,570 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 180.01 seconds
+2023-06-03 07:26:20,572 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 240.01 seconds
+2023-06-03 07:44:21,867 [app.py:log_request()] - 101 GET /websocket (192.168.1.103) [_TRUSTED_USER_] 3.10ms
+2023-06-03 07:44:21,868 [websockets.py:open()] - Websocket Opened: ID: 548149277984, Proxied: True, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36, Host Name: 192.168.1.130
+2023-06-03 07:44:21,873 [websockets.py:_handle_identify()] - Websocket 548149277984 Client Identified - Name: mainsail, Version: 2.5.1, Type: web
+2023-06-03 08:20:13,955 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 127.0.0.1
+2023-06-03 08:29:29,813 [websockets.py:on_close()] - Websocket Closed: ID: 548149277984 Close Code: None, Close Reason: None, Pong Time Elapsed: 7.93
+2023-06-03 08:41:03,039 [app.py:log_request()] - 101 GET /websocket (192.168.1.103) [_TRUSTED_USER_] 6.19ms
+2023-06-03 08:41:03,040 [websockets.py:open()] - Websocket Opened: ID: 548149847424, Proxied: True, User Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36, Host Name: 192.168.1.130
+2023-06-03 08:41:03,048 [websockets.py:_handle_identify()] - Websocket 548149847424 Client Identified - Name: mainsail, Version: 2.5.1, Type: web
+2023-06-03 09:45:13,972 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 192.168.1.103
+2023-06-03 09:58:59,582 [proc_stats.py:_watchdog_callback()] - EVENT LOOP BLOCKED: 12.14 seconds, total blocked count: 1
+2023-06-03 09:59:05,983 [proc_stats.py:log_last_stats()] - 
+System Time: 1685800724.518290, Usage: 6.24%, Memory: 21368 kB
+System Time: 1685800725.515057, Usage: 5.55%, Memory: 20816 kB
+System Time: 1685800726.515618, Usage: 3.89%, Memory: 20816 kB
+System Time: 1685800727.516776, Usage: 2.41%, Memory: 20816 kB
+System Time: 1685800728.517911, Usage: 2.48%, Memory: 20808 kB
+2023-06-03 09:59:06,020 [proc_stats.py:_watchdog_callback()] - EVENT LOOP BLOCKED: 6.44 seconds, total blocked count: 2
+2023-06-03 09:59:06,257 [proc_stats.py:log_last_stats()] - 
+System Time: 1685800724.518290, Usage: 6.24%, Memory: 21368 kB
+System Time: 1685800725.515057, Usage: 5.55%, Memory: 20816 kB
+System Time: 1685800726.515618, Usage: 3.89%, Memory: 20816 kB
+System Time: 1685800727.516776, Usage: 2.41%, Memory: 20816 kB
+System Time: 1685800728.517911, Usage: 2.48%, Memory: 20808 kB
+2023-06-03 10:35:37,071 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2023-06-03 10:36:31,561 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 60.00 seconds
+2023-06-03 10:36:44,231 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 60.00 seconds
+2023-06-03 10:37:31,564 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 120.01 seconds
+2023-06-03 10:37:44,233 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 120.00 seconds
+2023-06-03 10:37:53,604 [job_state.py:_status_update()] - Job Started: Cylinder_PLA_31m24s.gcode
+2023-06-03 10:43:33,900 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2023-06-03 10:43:34,150 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1685803383.134062, Usage: 3.99%, Memory: 22720 kB
+System Time: 1685803384.132924, Usage: 2.97%, Memory: 22712 kB
+System Time: 1685803385.133836, Usage: 1.68%, Memory: 22700 kB
+System Time: 1685803386.135469, Usage: 1.63%, Memory: 22700 kB
+System Time: 1685803387.140804, Usage: 2.85%, Memory: 22700 kB
+System Time: 1685803388.302620, Usage: 8.13%, Memory: 22700 kB
+System Time: 1685803389.315138, Usage: 3.69%, Memory: 22380 kB
+System Time: 1685803390.305242, Usage: 4.47%, Memory: 22348 kB
+System Time: 1685803391.303648, Usage: 5.0%, Memory: 21844 kB
+System Time: 1685803392.306598, Usage: 5.57%, Memory: 21832 kB
+System Time: 1685803393.317468, Usage: 6.92%, Memory: 21832 kB
+System Time: 1685803394.307171, Usage: 6.32%, Memory: 21832 kB
+System Time: 1685803395.312671, Usage: 4.6%, Memory: 21832 kB
+System Time: 1685803396.323369, Usage: 4.95%, Memory: 21832 kB
+System Time: 1685803397.321088, Usage: 5.17%, Memory: 21832 kB
+System Time: 1685803398.323416, Usage: 9.06%, Memory: 21832 kB
+System Time: 1685803399.318395, Usage: 5.04%, Memory: 21832 kB
+System Time: 1685803400.323380, Usage: 4.77%, Memory: 21488 kB
+System Time: 1685803401.318284, Usage: 4.53%, Memory: 21476 kB
+System Time: 1685803402.315538, Usage: 3.5%, Memory: 21424 kB
+System Time: 1685803403.325784, Usage: 2.39%, Memory: 21424 kB
+System Time: 1685803404.321248, Usage: 4.54%, Memory: 21416 kB
+System Time: 1685803405.321450, Usage: 3.1%, Memory: 21416 kB
+System Time: 1685803406.319401, Usage: 2.45%, Memory: 21396 kB
+System Time: 1685803407.320090, Usage: 1.56%, Memory: 21372 kB
+System Time: 1685803409.788596, Usage: 1.72%, Memory: 21144 kB
+System Time: 1685803410.793765, Usage: 1.28%, Memory: 21144 kB
+System Time: 1685803411.795720, Usage: 1.66%, Memory: 21144 kB
+System Time: 1685803412.797774, Usage: 2.26%, Memory: 21144 kB
+System Time: 1685803413.796950, Usage: 3.34%, Memory: 21152 kB
+CPU Temperature: 50.147
+2023-06-03 10:43:34,230 [proc_stats.py:_handle_shutdown()] - Throttled Flags: 
+2023-06-03 11:51:32,875 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2023-06-03 11:51:34,000 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 127.0.0.1
+2023-06-03 11:51:34,330 [app.py:log_request()] - 404 GET /machine/device_power/devices (127.0.0.1) [No User] 130.04ms
+2023-06-03 11:51:35,619 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2023-06-03 11:51:37,469 [app.py:log_request()] - 404 GET /machine/device_power/devices (127.0.0.1) [No User] 2.17ms
+2023-06-03 11:51:37,899 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2023-06-03 11:51:39,013 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2023-06-03 11:51:39,022 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2023-06-03 11:51:39,266 [job_state.py:_handle_started()] - Job state initialized: standby
+2023-06-03 11:51:39,526 [klippy_connection.py:_check_ready()] - Klippy ready
+2023-06-03 11:51:40,024 [data_store.py:_init_sensors()] - Configuring available sensors: ['temperature_sensor raspberry_pi', 'heater_bed', 'temperature_fan BTT', 'extruder']
+2023-06-03 12:26:58,053 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Cylinder_PLA_33m25s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Cylinder_PLA_33m25s.gcode>
+2023-06-03 12:26:58,054 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Cylinder_PLA_23m21s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Cylinder_PLA_23m21s.gcode>
+2023-06-03 12:26:58,054 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Cylinder_PLA_25m47s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Cylinder_PLA_25m47s.gcode>
+2023-06-03 12:26:58,054 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Cylinder_PLA_25m58s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Cylinder_PLA_25m58s.gcode>
+2023-06-03 12:26:58,054 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Extrusion bracket(Gates Left)_PLA_19m29s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Extrusion bracket(Gates Left)_PLA_19m29s.gcode>
+2023-06-03 12:26:58,055 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Cylinder_PLA_20m2s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Cylinder_PLA_20m2s.gcode>
+2023-06-03 12:26:58,222 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Cylinder_PLA_30m10s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Cylinder_PLA_30m10s.gcode>
+2023-06-03 12:26:58,462 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Cylinder_PLA_26m6s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Cylinder_PLA_26m6s.gcode>
+2023-06-03 12:26:59,000 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <bust (1)_PLA_1d0h40m.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <bust (1)_PLA_1d0h40m.gcode>
+2023-06-03 12:26:59,047 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Screw Box_PLA_2h20m.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Screw Box_PLA_2h20m.gcode>
+2023-06-03 12:26:59,126 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <skull_art_PLA_15h33m.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <skull_art_PLA_15h33m.gcode>
+2023-06-03 12:26:59,207 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <fishing pole holder wall mount med 35mm_PLA_1h45m.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <fishing pole holder wall mount med 35mm_PLA_1h45m.gcode>
+2023-06-03 12:26:59,282 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Mid-Panel-Clip-7mm-Lip_PLA_12m24s.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Mid-Panel-Clip-7mm-Lip_PLA_12m24s.gcode>
+2023-06-03 12:26:59,345 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Mid-Panel-Clip-7mm-Lip_13m_0.20}mm_194C_PLA_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Mid-Panel-Clip-7mm-Lip_13m_0.20}mm_194C_PLA_ENDER5PLUS.gcode>
+2023-06-03 12:26:59,384 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Mid-Panel-Clip-7mm-Lip_12m_0.20}mm_195C_PLA_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Mid-Panel-Clip-7mm-Lip_12m_0.20}mm_195C_PLA_ENDER5PLUS.gcode>
+2023-06-03 12:26:59,418 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Mid-Panel-Clip-7mm-Lip_12m_0.20}mm_205C_PLA_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Mid-Panel-Clip-7mm-Lip_12m_0.20}mm_205C_PLA_ENDER5PLUS.gcode>
+2023-06-03 12:26:59,482 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <flower vase beigne_8h29m_0.20}mm_0C_PLA_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <flower vase beigne_8h29m_0.20}mm_0C_PLA_ENDER5PLUS.gcode>
+2023-06-03 12:26:59,564 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Over-bridge calibration-PLA LEDD ZEROG-PETG 101.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Over-bridge calibration-PLA LEDD ZEROG-PETG 101.gcode>
+2023-06-03 12:26:59,597 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Flow calibration-PLA LEDD ZEROG-PETG STOCK ALL arachne.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Flow calibration-PLA LEDD ZEROG-PETG STOCK ALL arachne.gcode>
+2023-06-03 12:26:59,680 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <LED diffuser v3_1 - link 4-1_3h2m_0.20}mm_240C_PET_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <LED diffuser v3_1 - link 4-1_3h2m_0.20}mm_240C_PET_ENDER5PLUS.gcode>
+2023-06-03 12:26:59,736 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Calibration cube_23m_0.20}mm_240C_PET_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Calibration cube_23m_0.20}mm_240C_PET_ENDER5PLUS.gcode>
+2023-06-03 12:26:59,763 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Clamp-Universalarm_Ball_Reinforced (2)_1h5m_0.20}mm_240C_PET_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Clamp-Universalarm_Ball_Reinforced (2)_1h5m_0.20}mm_240C_PET_ENDER5PLUS.gcode>
+2023-06-03 12:26:59,793 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Hot Rod E3D Buggy (1)_1h11m_0.20}mm_205C_PLA_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Hot Rod E3D Buggy (1)_1h11m_0.20}mm_205C_PLA_ENDER5PLUS.gcode>
+2023-06-03 12:26:59,821 [common.py:build_error()] - JSON-RPC Request Error: -32601
+Metadata not available for <Gengar_V2_3Demon_1h4m_0.20}mm_200C_PLA_ENDER5PLUS.gcode>
+Traceback (most recent call last):
+  File "/home/pi/moonraker/moonraker/common.py", line 541, in execute_method
+    result = await callback(params)
+  File "/home/pi/moonraker/moonraker/websockets.py", line 113, in func
+    result = await callback(
+  File "/home/pi/moonraker/moonraker/components/file_manager/file_manager.py", line 381, in _handle_metadata_request
+    raise self.server.error(
+moonraker.utils.ServerError: Metadata not available for <Gengar_V2_3Demon_1h4m_0.20}mm_200C_PLA_ENDER5PLUS.gcode>
+2023-06-03 12:33:36,587 [proc_stats.py:_watchdog_callback()] - EVENT LOOP BLOCKED: 4.27 seconds, total blocked count: 3
+2023-06-03 12:33:37,059 [proc_stats.py:log_last_stats()] - 
+System Time: 1685810010.302632, Usage: 4.89%, Memory: 36992 kB
+System Time: 1685810011.305588, Usage: 4.11%, Memory: 36988 kB
+System Time: 1685810012.307091, Usage: 4.77%, Memory: 36980 kB
+System Time: 1685810013.307355, Usage: 7.09%, Memory: 36980 kB
+System Time: 1685810016.932887, Usage: 2.75%, Memory: 36832 kB
+2023-06-03 12:55:14,025 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 127.0.0.1
+2023-06-03 13:15:35,360 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 192.168.1.103
+2023-06-03 13:21:05,778 [websockets.py:on_close()] - Websocket Closed: ID: 548193818368 Close Code: None, Close Reason: None, Pong Time Elapsed: 3.36
+2023-06-03 13:21:05,951 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2023-06-03 13:21:10,357 [websockets.py:on_close()] - Websocket Closed: ID: 548149847424 Close Code: None, Close Reason: None, Pong Time Elapsed: 7.31
+2023-06-03 13:21:10,379 [websockets.py:on_close()] - Websocket Closed: ID: 548193789888 Close Code: None, Close Reason: None, Pong Time Elapsed: 6.56
+2023-06-03 13:21:12,827 [server.py:_handle_term_signal()] - Exiting with signal SIGTERM
+2023-06-03 13:21:13,026 [database.py:close()] - Database statistics:
+
+announcements:
+psize: 4096
+depth: 0
+branch_pages: 0
+leaf_pages: 0
+overflow_pages: 0
+entries: 0
+authorized_users:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 1
+gcode_metadata:
+psize: 4096
+depth: 0
+branch_pages: 0
+leaf_pages: 0
+overflow_pages: 0
+entries: 0
+history:
+psize: 4096
+depth: 2
+branch_pages: 1
+leaf_pages: 245
+overflow_pages: 0
+entries: 454
+mainsail:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 7
+moonraker:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 7
+update_manager:
+psize: 4096
+depth: 2
+branch_pages: 1
+leaf_pages: 3
+overflow_pages: 5
+entries: 6
+webcams:
+psize: 4096
+depth: 1
+branch_pages: 0
+leaf_pages: 1
+overflow_pages: 0
+entries: 1
+2023-06-03 13:21:13,173 [server.py:main()] - Server Shutdown
+--------------------Moonraker Log Start--------------------
+data_path: /home/pi/printer_data
+is_default_data_path: False
+config_file: /home/pi/printer_data/config/moonraker.conf
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: False
+log_file: /home/pi/printer_data/logs/moonraker.log
+software_version: v0.8.0-40-gb21f177
+python_version: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - data_path: /home/pi/printer_data
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - is_default_data_path: False
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - config_file: /home/pi/printer_data/config/moonraker.conf
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - startup_warnings: []
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - verbose: False
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - debug: False
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - asyncio_debug: False
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - is_backup_config: False
+2023-06-03 13:21:38,879 [loghelper.py:__init__()] - is_python_package: False
+2023-06-03 13:21:38,880 [loghelper.py:__init__()] - log_file: /home/pi/printer_data/logs/moonraker.log
+2023-06-03 13:21:38,880 [loghelper.py:__init__()] - software_version: v0.8.0-40-gb21f177
+2023-06-03 13:21:38,880 [loghelper.py:__init__()] - python_version: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+2023-06-03 13:21:38,894 [confighelper.py:read_file()] - Configuration File '/home/pi/printer_data/config/moonraker.conf' parsed, total size: 889 B
+2023-06-03 13:21:38,894 [server.py:add_log_rollover_item()] - 
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+klippy_uds_address = /home/pi/printer_data/comms/klippy.sock
+
+[authorization]
+trusted_clients = 
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+cors_domains = 
+	http://*.lan
+	http://*.local
+	https://my.mainsail.xyz
+	http://my.mainsail.xyz
+	https://app.fluidd.xyz
+	http://app.fluidd.xyz
+
+[octoprint_compat]
+
+[history]
+
+[update_manager]
+channel = dev
+refresh_interval = 168
+
+[update_manager mainsail]
+type = web
+channel = stable
+repo = mainsail-crew/mainsail
+path = ~/mainsail
+
+[update_manager led_effect]
+type = git_repo
+path = ~/klipper-led_effect
+origin = https://github.com/julianschill/klipper-led_effect.git
+is_system_service = False
+
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+install_script = tools/install.sh
+
+#################################################################
+All Configuration Files:
+/home/pi/printer_data/config/moonraker.conf
+#################################################################
+2023-06-03 13:21:38,980 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/logs/rollover
+2023-06-03 13:21:38,981 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.logs.rollover
+2023-06-03 13:21:38,981 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/info
+2023-06-03 13:21:38,981 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.info
+2023-06-03 13:21:38,981 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/config
+2023-06-03 13:21:38,981 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.config
+2023-06-03 13:21:38,981 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/restart
+2023-06-03 13:21:38,982 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.restart
+2023-06-03 13:21:39,239 [server.py:load_component()] - Component (dbus_manager) loaded
+2023-06-03 13:21:39,408 [server.py:add_log_rollover_item()] - Unsafe Shutdown Count: 36
+2023-06-03 13:21:39,533 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/database/list
+2023-06-03 13:21:39,534 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.database.list
+2023-06-03 13:21:39,534 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET POST DELETE) /server/database/item
+2023-06-03 13:21:39,535 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.database.get_item, server.database.post_item, server.database.delete_item
+2023-06-03 13:21:39,535 [server.py:load_component()] - Component (database) loaded
+2023-06-03 13:21:39,607 [file_manager.py:__init__()] - Using File System Observer: inotify
+2023-06-03 13:21:39,681 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/files/list
+2023-06-03 13:21:39,682 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.list
+2023-06-03 13:21:39,682 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/files/metadata
+2023-06-03 13:21:39,682 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.metadata
+2023-06-03 13:21:39,683 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/files/metascan
+2023-06-03 13:21:39,684 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.metascan
+2023-06-03 13:21:39,684 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/files/thumbnails
+2023-06-03 13:21:39,684 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.thumbnails
+2023-06-03 13:21:39,684 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/files/roots
+2023-06-03 13:21:39,685 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.roots
+2023-06-03 13:21:39,685 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET POST DELETE) /server/files/directory
+2023-06-03 13:21:39,685 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.get_directory, server.files.post_directory, server.files.delete_directory
+2023-06-03 13:21:39,685 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/files/move
+2023-06-03 13:21:39,686 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.move
+2023-06-03 13:21:39,686 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/files/copy
+2023-06-03 13:21:39,686 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.copy
+2023-06-03 13:21:39,687 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/files/zip
+2023-06-03 13:21:39,687 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.zip
+2023-06-03 13:21:39,687 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.files.delete_file
+2023-06-03 13:21:39,736 [server.py:load_component()] - Component (file_manager) loaded
+2023-06-03 13:21:39,745 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /printer/print/pause
+2023-06-03 13:21:39,746 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.print.pause
+2023-06-03 13:21:39,746 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /printer/print/resume
+2023-06-03 13:21:39,746 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.print.resume
+2023-06-03 13:21:39,746 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /printer/print/cancel
+2023-06-03 13:21:39,747 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.print.cancel
+2023-06-03 13:21:39,747 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /printer/print/start
+2023-06-03 13:21:39,747 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.print.start
+2023-06-03 13:21:39,747 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /printer/restart
+2023-06-03 13:21:39,747 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.restart
+2023-06-03 13:21:39,747 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /printer/firmware_restart
+2023-06-03 13:21:39,748 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.firmware_restart
+2023-06-03 13:21:39,748 [server.py:load_component()] - Component (klippy_apis) loaded
+2023-06-03 13:21:40,089 [server.py:load_component()] - Component (secrets) loaded
+2023-06-03 13:21:40,122 [server.py:load_component()] - Component (template) loaded
+2023-06-03 13:21:40,307 [server.py:add_log_rollover_item()] - 
+System Info:
+
+***python***
+  version: sys.version_info(major=3, minor=9, micro=2, releaselevel='final', serial=0)
+  version_string: 3.9.2 (default, Feb 28 2021, 17:03:44)  [GCC 10.2.1 20210110]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 64bit
+  processor: aarch64
+  cpu_desc: 
+  serial_number: 10000000d45ec09c
+  hardware_desc: BCM2835
+  model: Raspberry Pi 4 Model B Rev 1.2
+  total_memory: 1842528
+  memory_units: kB
+
+***sd_info***
+  manufacturer_id: 73
+  manufacturer: Unknown
+  oem_id: 4247
+  product_name: NCard
+  product_revision: 1.0
+  serial_number: 2133544a
+  manufacturer_date: 9/2012
+  capacity: 14.8 GiB
+  total_bytes: 15912140800
+
+***distribution***
+  name: Debian GNU/Linux 11 (bullseye)
+  id: debian
+  version: 11
+  version_parts: {'major': '11', 'minor': '', 'build_number': ''}
+  like: 
+  codename: bullseye
+  release_info: {}
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+2023-06-03 13:21:40,321 [server.py:load_component()] - Component (shell_command) loaded
+2023-06-03 13:21:40,321 [machine.py:__init__()] - Using System Provider: systemd_dbus
+2023-06-03 13:21:40,321 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/reboot
+2023-06-03 13:21:40,322 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.reboot
+2023-06-03 13:21:40,322 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/shutdown
+2023-06-03 13:21:40,323 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.shutdown
+2023-06-03 13:21:40,323 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/services/restart
+2023-06-03 13:21:40,323 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.services.restart
+2023-06-03 13:21:40,324 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/services/stop
+2023-06-03 13:21:40,324 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.services.stop
+2023-06-03 13:21:40,324 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/services/start
+2023-06-03 13:21:40,324 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.services.start
+2023-06-03 13:21:40,325 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /machine/system_info
+2023-06-03 13:21:40,325 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.system_info
+2023-06-03 13:21:40,325 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /machine/sudo/info
+2023-06-03 13:21:40,325 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.sudo.info
+2023-06-03 13:21:40,325 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/sudo/password
+2023-06-03 13:21:40,326 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.sudo.password
+2023-06-03 13:21:40,327 [server.py:load_component()] - Component (machine) loaded
+2023-06-03 13:21:40,332 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/temperature_store
+2023-06-03 13:21:40,333 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.temperature_store
+2023-06-03 13:21:40,333 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/gcode_store
+2023-06-03 13:21:40,333 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.gcode_store
+2023-06-03 13:21:40,334 [server.py:load_component()] - Component (data_store) loaded
+2023-06-03 13:21:40,337 [proc_stats.py:__init__()] - Detected 'vcgencmd', throttle checking enabled
+2023-06-03 13:21:40,338 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /machine/proc_stats
+2023-06-03 13:21:40,339 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.proc_stats
+2023-06-03 13:21:40,339 [server.py:load_component()] - Component (proc_stats) loaded
+2023-06-03 13:21:40,342 [server.py:load_component()] - Component (job_state) loaded
+2023-06-03 13:21:40,349 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST DELETE) /server/job_queue/job
+2023-06-03 13:21:40,350 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.job_queue.post_job, server.job_queue.delete_job
+2023-06-03 13:21:40,350 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/job_queue/pause
+2023-06-03 13:21:40,351 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.job_queue.pause
+2023-06-03 13:21:40,351 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/job_queue/start
+2023-06-03 13:21:40,351 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.job_queue.start
+2023-06-03 13:21:40,351 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/job_queue/status
+2023-06-03 13:21:40,351 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.job_queue.status
+2023-06-03 13:21:40,351 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/job_queue/jump
+2023-06-03 13:21:40,352 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.job_queue.jump
+2023-06-03 13:21:40,352 [server.py:load_component()] - Component (job_queue) loaded
+2023-06-03 13:21:40,401 [server.py:load_component()] - Component (http_client) loaded
+2023-06-03 13:21:40,406 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/announcements/list
+2023-06-03 13:21:40,407 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.announcements.list
+2023-06-03 13:21:40,407 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/announcements/dismiss
+2023-06-03 13:21:40,407 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.announcements.dismiss
+2023-06-03 13:21:40,407 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/announcements/update
+2023-06-03 13:21:40,408 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.announcements.update
+2023-06-03 13:21:40,408 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST DELETE) /server/announcements/feed
+2023-06-03 13:21:40,408 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.announcements.post_feed, server.announcements.delete_feed
+2023-06-03 13:21:40,408 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/announcements/feeds
+2023-06-03 13:21:40,409 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.announcements.feeds
+2023-06-03 13:21:40,409 [server.py:load_component()] - Component (announcements) loaded
+2023-06-03 13:21:40,432 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/webcams/list
+2023-06-03 13:21:40,433 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.webcams.list
+2023-06-03 13:21:40,433 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET POST DELETE) /server/webcams/item
+2023-06-03 13:21:40,434 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.webcams.get_item, server.webcams.post_item, server.webcams.delete_item
+2023-06-03 13:21:40,434 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/webcams/test
+2023-06-03 13:21:40,434 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.webcams.test
+2023-06-03 13:21:40,434 [server.py:load_component()] - Component (webcam) loaded
+2023-06-03 13:21:40,439 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: connection.send_event
+2023-06-03 13:21:40,439 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/extensions/list
+2023-06-03 13:21:40,440 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.extensions.list
+2023-06-03 13:21:40,440 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/extensions/request
+2023-06-03 13:21:40,440 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.extensions.request
+2023-06-03 13:21:40,441 [server.py:load_component()] - Component (extensions) loaded
+2023-06-03 13:21:40,529 [authorization.py:__init__()] - Authorization Configuration Loaded
+Trusted Clients:
+10.0.0.0/8
+127.0.0.0/8
+169.254.0.0/16
+172.16.0.0/12
+192.168.0.0/16
+fe80::/10
+::1/128
+CORS Domains:
+http://.*\.lan
+http://.*\.local
+https://my\.mainsail\.xyz
+http://my\.mainsail\.xyz
+https://app\.fluidd\.xyz
+http://app\.fluidd\.xyz
+2023-06-03 13:21:40,529 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /access/login
+2023-06-03 13:21:40,530 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.login
+2023-06-03 13:21:40,530 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /access/logout
+2023-06-03 13:21:40,530 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.logout
+2023-06-03 13:21:40,530 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /access/refresh_jwt
+2023-06-03 13:21:40,530 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.refresh_jwt
+2023-06-03 13:21:40,531 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET POST DELETE) /access/user
+2023-06-03 13:21:40,531 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.get_user, access.post_user, access.delete_user
+2023-06-03 13:21:40,531 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /access/users/list
+2023-06-03 13:21:40,531 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.users.list
+2023-06-03 13:21:40,531 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /access/user/password
+2023-06-03 13:21:40,532 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.user.password
+2023-06-03 13:21:40,532 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET POST) /access/api_key
+2023-06-03 13:21:40,533 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.get_api_key, access.post_api_key
+2023-06-03 13:21:40,533 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /access/oneshot_token
+2023-06-03 13:21:40,533 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.oneshot_token
+2023-06-03 13:21:40,534 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /access/info
+2023-06-03 13:21:40,534 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: access.info
+2023-06-03 13:21:40,534 [server.py:load_component()] - Component (authorization) loaded
+2023-06-03 13:21:40,657 [base_deploy.py:log_info()] - Application moonraker: Detected virtualenv: /home/pi/moonraker-env
+2023-06-03 13:21:40,660 [base_deploy.py:log_info()] - Application klipper: Detected virtualenv: /home/pi/klippy-env
+2023-06-03 13:21:40,671 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/update/moonraker
+2023-06-03 13:21:40,672 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.update.moonraker
+2023-06-03 13:21:40,672 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/update/klipper
+2023-06-03 13:21:40,672 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.update.klipper
+2023-06-03 13:21:40,672 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/update/system
+2023-06-03 13:21:40,672 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.update.system
+2023-06-03 13:21:40,673 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/update/client
+2023-06-03 13:21:40,673 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.update.client
+2023-06-03 13:21:40,673 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/update/full
+2023-06-03 13:21:40,673 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.update.full
+2023-06-03 13:21:40,673 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /machine/update/status
+2023-06-03 13:21:40,674 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.update.status
+2023-06-03 13:21:40,674 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/update/refresh
+2023-06-03 13:21:40,674 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.update.refresh
+2023-06-03 13:21:40,674 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /machine/update/recover
+2023-06-03 13:21:40,675 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: machine.update.recover
+2023-06-03 13:21:40,675 [server.py:load_component()] - Component (update_manager) loaded
+2023-06-03 13:21:40,681 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET DELETE) /server/history/job
+2023-06-03 13:21:40,682 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.history.get_job, server.history.delete_job
+2023-06-03 13:21:40,682 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/history/list
+2023-06-03 13:21:40,682 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.history.list
+2023-06-03 13:21:40,682 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /server/history/totals
+2023-06-03 13:21:40,683 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.history.totals
+2023-06-03 13:21:40,683 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /server/history/reset_totals
+2023-06-03 13:21:40,683 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: server.history.reset_totals
+2023-06-03 13:21:40,686 [server.py:load_component()] - Component (history) loaded
+2023-06-03 13:21:40,692 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /api/version
+2023-06-03 13:21:40,692 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /api/server
+2023-06-03 13:21:40,693 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /api/login
+2023-06-03 13:21:40,693 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /api/currentuser
+2023-06-03 13:21:40,693 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /api/settings
+2023-06-03 13:21:40,693 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /api/job
+2023-06-03 13:21:40,694 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /api/printer
+2023-06-03 13:21:40,694 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /api/printer/command
+2023-06-03 13:21:40,695 [app.py:register_local_handler()] - Registering HTTP Endpoint: (GET) /api/printerprofiles
+2023-06-03 13:21:40,696 [app.py:register_local_handler()] - Registering HTTP Endpoint: (POST) /api/files/moonraker/(?P<relative_path>.+)
+2023-06-03 13:21:40,696 [server.py:load_component()] - Component (octoprint_compat) loaded
+2023-06-03 13:21:40,708 [server.py:_initialize_component()] - Performing Component Post Init: [dbus_manager]
+2023-06-03 13:21:40,725 [server.py:_initialize_component()] - Performing Component Post Init: [file_manager]
+2023-06-03 13:21:40,797 [server.py:_initialize_component()] - Performing Component Post Init: [machine]
+2023-06-03 13:21:40,798 [machine.py:validation_init()] - Installation version in database up to date
+2023-06-03 13:21:42,661 [machine.py:check_virt_status()] - No Virtualization Detected
+2023-06-03 13:21:42,680 [machine.py:_find_public_ip()] - Detected Local IP: 192.168.1.130
+2023-06-03 13:21:42,684 [webcam.py:_set_default_host_ip()] - Default public webcam address set: http://192.168.1.130
+2023-06-03 13:21:42,753 [server.py:add_log_rollover_item()] - 
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['sysinit.target', 'network-online.target', 'system.slice', '-.mount']
+**After=['basic.target', '-.mount', 'system.slice', 'sysinit.target', 'systemd-journald.socket', 'network-online.target']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/pi/printer_data/systemd/moonraker.env
+**ExecStart=/home/pi/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=/home/pi/moonraker
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=pi
+2023-06-03 13:21:42,753 [server.py:_initialize_component()] - Performing Component Post Init: [proc_stats]
+2023-06-03 13:21:42,753 [server.py:_initialize_component()] - Performing Component Post Init: [announcements]
+2023-06-03 13:21:42,755 [server.py:_initialize_component()] - Performing Component Post Init: [webcam]
+2023-06-03 13:21:42,755 [webcam.py:_set_default_host_ip()] - Default public webcam address set: http://192.168.1.130
+2023-06-03 13:21:42,757 [server.py:_initialize_component()] - Performing Component Post Init: [klippy_connection]
+2023-06-03 13:21:42,757 [server.py:add_log_rollover_item()] - 
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['sysinit.target', '-.mount', 'system.slice']
+**After=['network-online.target', '-.mount', 'systemd-journald.socket', 'basic.target', 'sysinit.target', 'system.slice', 'klipper-mcu.service']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+2023-06-03 13:21:42,758 [server.py:_initialize_component()] - Performing Component Post Init: [authorization]
+2023-06-03 13:21:42,758 [server.py:_initialize_component()] - Performing Component Post Init: [update_manager]
+2023-06-03 13:21:43,625 [update_manager.py:initialize()] - PackageDeploy: Using PackageKit Provider
+2023-06-03 13:21:43,627 [update_manager.py:initialize()] - 
+Initializing Client Updater: 'mainsail',
+Channel: stable
+path: /home/pi/mainsail
+2023-06-03 13:21:43,632 [extensions.py:start_unix_server()] - Creating Unix Domain Socket at '/home/pi/printer_data/comms/moonraker.sock'
+2023-06-03 13:21:43,633 [server.py:start_server()] - Starting Moonraker on (0.0.0.0, 7125), Hostname: REDZEROGPRO
+2023-06-03 13:21:43,634 [app.py:listen()] - SSL Certificate/Key not configured, aborting HTTPS Server startup
+2023-06-03 13:21:43,886 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2023-06-03 13:21:43,951 [server.py:add_log_rollover_item()] - 
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['-.mount', 'system.slice', 'sysinit.target']
+**After=['sysinit.target', 'basic.target', 'system.slice', 'klipper-mcu.service', 'network-online.target', '-.mount', 'systemd-journald.socket']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/pi/printer_data/systemd/klipper.env
+**ExecStart=/home/pi/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/pi/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=pi
+2023-06-03 13:21:44,204 [server.py:add_log_rollover_item()] - Klipper Version: v0.11.0-198-g33b18fd6-dirty
+2023-06-03 13:21:44,210 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/info
+2023-06-03 13:21:44,211 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.info
+2023-06-03 13:21:44,211 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/emergency_stop
+2023-06-03 13:21:44,211 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.emergency_stop
+2023-06-03 13:21:44,211 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/gcode/help
+2023-06-03 13:21:44,211 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.gcode.help
+2023-06-03 13:21:44,212 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/gcode/script
+2023-06-03 13:21:44,212 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.gcode.script
+2023-06-03 13:21:44,212 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/gcode/restart
+2023-06-03 13:21:44,212 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.gcode.restart
+2023-06-03 13:21:44,212 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/gcode/firmware_restart
+2023-06-03 13:21:44,213 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.gcode.firmware_restart
+2023-06-03 13:21:44,213 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/objects/list
+2023-06-03 13:21:44,213 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.objects.list
+2023-06-03 13:21:44,213 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/objects/query
+2023-06-03 13:21:44,213 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.objects.query
+2023-06-03 13:21:44,214 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/objects/subscribe
+2023-06-03 13:21:44,214 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.objects.subscribe
+2023-06-03 13:21:44,214 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/pause_resume/cancel
+2023-06-03 13:21:44,214 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.pause_resume.cancel
+2023-06-03 13:21:44,214 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/pause_resume/pause
+2023-06-03 13:21:44,215 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.pause_resume.pause
+2023-06-03 13:21:44,215 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/pause_resume/resume
+2023-06-03 13:21:44,219 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.pause_resume.resume
+2023-06-03 13:21:44,219 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/adxl345/dump_adxl345
+2023-06-03 13:21:44,220 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.adxl345.dump_adxl345
+2023-06-03 13:21:44,220 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/motion_report/dump_stepper
+2023-06-03 13:21:44,221 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.motion_report.dump_stepper
+2023-06-03 13:21:44,221 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/query_endstops/status
+2023-06-03 13:21:44,221 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.query_endstops.status
+2023-06-03 13:21:44,221 [app.py:register_remote_handler()] - Registering HTTP endpoint: (GET POST) /printer/motion_report/dump_trapq
+2023-06-03 13:21:44,222 [websockets.py:register_api_handler()] - Registering Websocket JSON-RPC methods: printer.motion_report.dump_trapq
+2023-06-03 13:21:44,228 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2023-06-03 13:21:44,230 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2023-06-03 13:21:44,477 [job_state.py:_handle_started()] - Job state initialized: standby
+2023-06-03 13:21:44,739 [klippy_connection.py:_check_ready()] - Klippy ready
+2023-06-03 13:21:45,229 [data_store.py:_init_sensors()] - Configuring available sensors: ['temperature_sensor raspberry_pi', 'heater_bed', 'temperature_fan BTT', 'extruder']
+2023-06-03 13:22:07,231 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 127.0.0.1
+2023-06-03 13:22:07,278 [app.py:log_request()] - 101 GET /websocket?token=HC4OSHPHJWJUXLE6CTATADN7BVI4BETV (127.0.0.1) [_TRUSTED_USER_] 8.49ms
+2023-06-03 13:22:07,280 [websockets.py:open()] - Websocket Opened: ID: 547429340976, Proxied: False, User Agent: , Host Name: 127.0.0.1
+2023-06-03 13:22:07,402 [app.py:log_request()] - 404 GET /machine/device_power/devices (127.0.0.1) [No User] 17.88ms
+2023-06-03 13:22:08,023 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2023-06-03 13:22:09,429 [update_manager.py:refresh()] - Detected 88 package updates:
+at-spi2-core
+avahi-daemon
+base-files
+bind9-host
+bind9-libs
+curl
+debian-archive-keyring
+ffmpeg
+gir1.2-gtk-3.0
+git
+git-man
+grep
+gtk-update-icon-cache
+isc-dhcp-client
+isc-dhcp-common
+libatspi2.0-0
+libavahi-client3
+libavahi-common-data
+libavahi-common3
+libavahi-core7
+libavcodec58
+libavdevice58
+libavfilter7
+libavformat58
+libavresample4
+libavutil56
+libcamera-apps-lite
+libcamera0
+libcurl3-gnutls
+libcurl4
+libcurl4-openssl-dev
+libegl-mesa0
+libgbm1
+libgl1-mesa-dri
+libglapi-mesa
+libglx-mesa0
+libgnutls30
+libgtk-3-0
+libgtk-3-bin
+libgtk-3-common
+libncurses-dev
+libncurses6
+libncursesw6
+libnss3
+libpam-systemd
+libpostproc55
+libraspberrypi-bin
+libraspberrypi-dev
+libraspberrypi-doc
+libraspberrypi0
+libssl-dev
+libssl1.1
+libswresample3
+libswscale5
+libsystemd0
+libtiff5
+libtinfo6
+libudev1
+libxml2
+libxpm4
+linux-libc-dev
+mesa-va-drivers
+mesa-vdpau-drivers
+mesa-vulkan-drivers
+ncurses-base
+ncurses-bin
+ncurses-term
+openssl
+python3-libcamera
+python3-picamera2
+python3-v4l2
+raspberrypi-bootloader
+raspberrypi-kernel
+raspberrypi-sys-mods
+raspi-config
+raspinfo
+rpi-eeprom
+sudo
+systemd
+systemd-sysv
+systemd-timesyncd
+tzdata
+udev
+xserver-common
+xserver-xorg-core
+xserver-xorg-legacy
+kms++-utils
+raspi-utils
+2023-06-03 13:22:09,482 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker status -u no) successfully finished
+2023-06-03 13:22:09,494 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker config --get branch.master.remote) successfully finished
+2023-06-03 13:22:09,507 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker remote get-url origin) successfully finished
+2023-06-03 13:22:10,680 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker fetch origin --prune --progress) successfully finished
+2023-06-03 13:22:10,705 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker merge-base --is-ancestor HEAD origin/master) successfully finished
+2023-06-03 13:22:10,721 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker branch --list) successfully finished
+2023-06-03 13:22:10,736 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-parse HEAD) successfully finished
+2023-06-03 13:22:10,756 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker describe --always --tags --long --dirty) successfully finished
+2023-06-03 13:22:10,770 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-parse origin/master) successfully finished
+2023-06-03 13:22:10,788 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker describe origin/master --always --tags --long) successfully finished
+2023-06-03 13:22:10,805 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker rev-list --tags --max-count=1) successfully finished
+2023-06-03 13:22:10,820 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker describe --tags d549af915fe50c2e274dc99ac0b772ae0276646e) successfully finished
+2023-06-03 13:22:10,836 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker log b21f177e951f70a0967b4967b1d43d2bfde02e1b..origin/master --format="sha:%H%x1Dauthor:%an%x1Ddate:%ct%x1Dsubject:%s%x1Dmessage:%b%x1E" --max-count=100) successfully finished
+2023-06-03 13:22:10,854 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/moonraker for-each-ref --count=10 --sort='-creatordate' --format='%(if)%(*objecttype)%(then)%(*objecttype) (*objectname)%(else)%(objecttype) %(objectname)%(end) %(refname)' 'refs/tags') successfully finished
+2023-06-03 13:22:10,855 [git_deploy.py:log_repo_info()] - Git Repo moonraker Detected:
+Owner: Arksine
+Repository Name: moonraker
+Path: /home/pi/moonraker
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Arksine/moonraker.git
+Current Commit SHA: b21f177e951f70a0967b4967b1d43d2bfde02e1b
+Upstream Commit SHA: d6231634db27a86c3674c051b991b1276c0d1397
+Current Version: v0.8.0-40
+Upstream Version: v0.8.0-46
+Is Dirty: False
+Is Detached: False
+Commits Behind: 6
+Tag Data: {}
+Bound Repo: None
+Diverged: False
+2023-06-03 13:22:10,855 [base_deploy.py:log_info()] - Application moonraker: Channel: dev, Need Channel Update: False
+2023-06-03 13:22:10,855 [base_deploy.py:log_info()] - Application moonraker: Validity check for git repo passed
+2023-06-03 13:22:10,889 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper status -u no) successfully finished
+2023-06-03 13:22:10,906 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper config --get branch.master.remote) successfully finished
+2023-06-03 13:22:10,923 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper remote get-url origin) successfully finished
+2023-06-03 13:22:13,146 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper fetch origin --prune --progress) successfully finished
+2023-06-03 13:22:13,167 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper merge-base --is-ancestor HEAD origin/master) successfully finished
+2023-06-03 13:22:13,189 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper branch --list) successfully finished
+2023-06-03 13:22:13,226 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-parse HEAD) successfully finished
+2023-06-03 13:22:13,381 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper describe --always --tags --long --dirty) successfully finished
+2023-06-03 13:22:13,407 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-parse origin/master) successfully finished
+2023-06-03 13:22:13,548 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper describe origin/master --always --tags --long) successfully finished
+2023-06-03 13:22:13,581 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper rev-list --tags --max-count=1) successfully finished
+2023-06-03 13:22:13,610 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper describe --tags e02b725602067a2cd098a62be9a4bb10fc74a9bd) successfully finished
+2023-06-03 13:22:13,641 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper log 33b18fd62ba73c90054a7b94b68c341bb3f40d9a..origin/master --format="sha:%H%x1Dauthor:%an%x1Ddate:%ct%x1Dsubject:%s%x1Dmessage:%b%x1E" --max-count=100) successfully finished
+2023-06-03 13:22:13,662 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper for-each-ref --count=10 --sort='-creatordate' --format='%(if)%(*objecttype)%(then)%(*objecttype) (*objectname)%(else)%(objecttype) %(objectname)%(end) %(refname)' 'refs/tags') successfully finished
+2023-06-03 13:22:13,664 [git_deploy.py:log_repo_info()] - Git Repo klipper Detected:
+Owner: Klipper3d
+Repository Name: klipper
+Path: /home/pi/klipper
+Remote: origin
+Branch: master
+Remote URL: https://github.com/Klipper3d/klipper.git
+Current Commit SHA: 33b18fd62ba73c90054a7b94b68c341bb3f40d9a
+Upstream Commit SHA: 0539e9f2666839d9adeecdfcf492a45a0d3aac1a
+Current Version: v0.11.0-198
+Upstream Version: v0.11.0-210
+Is Dirty: False
+Is Detached: False
+Commits Behind: 12
+Tag Data: {}
+Bound Repo: None
+Diverged: False
+2023-06-03 13:22:13,665 [base_deploy.py:log_info()] - Application klipper: Channel: dev, Need Channel Update: False
+2023-06-03 13:22:13,665 [base_deploy.py:log_info()] - Application klipper: Validity check for git repo passed
+2023-06-03 13:22:14,034 [update_manager.py:_get_remote_version()] - Github client Info Received:
+Repo: mainsail
+Local Version: v2.5.1
+Remote Version: v2.5.1
+Pre-release: False
+url: https://github.com/mainsail-crew/mainsail/releases/download/v2.5.1/mainsail.zip
+size: 1991346
+Content Type: application/zip
+2023-06-03 13:22:14,122 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect status -u no) successfully finished
+2023-06-03 13:22:14,146 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect config --get branch.master.remote) successfully finished
+2023-06-03 13:22:14,165 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect remote get-url origin) successfully finished
+2023-06-03 13:22:14,609 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect fetch origin --prune --progress) successfully finished
+2023-06-03 13:22:14,626 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect merge-base --is-ancestor HEAD origin/master) successfully finished
+2023-06-03 13:22:14,655 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect branch --list) successfully finished
+2023-06-03 13:22:14,675 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect rev-parse HEAD) successfully finished
+2023-06-03 13:22:14,705 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect describe --always --tags --long --dirty) successfully finished
+2023-06-03 13:22:14,724 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect rev-parse origin/master) successfully finished
+2023-06-03 13:22:14,745 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect describe origin/master --always --tags --long) successfully finished
+2023-06-03 13:22:14,765 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect rev-list --tags --max-count=1) successfully finished
+2023-06-03 13:22:14,782 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/klipper-led_effect describe --tags 35cf587fe958fe15a07c11b60564856582890460) successfully finished
+2023-06-03 13:22:14,784 [git_deploy.py:log_repo_info()] - Git Repo led_effect Detected:
+Owner: julianschill
+Repository Name: klipper-led_effect
+Path: /home/pi/klipper-led_effect
+Remote: origin
+Branch: master
+Remote URL: https://github.com/julianschill/klipper-led_effect.git
+Current Commit SHA: 35cf587fe958fe15a07c11b60564856582890460
+Upstream Commit SHA: 35cf587fe958fe15a07c11b60564856582890460
+Current Version: v0.0.10-0
+Upstream Version: v0.0.10-0
+Is Dirty: False
+Is Detached: False
+Commits Behind: 0
+Tag Data: {}
+Bound Repo: None
+Diverged: False
+2023-06-03 13:22:14,785 [base_deploy.py:log_info()] - Application led_effect: Channel: dev, Need Channel Update: False
+2023-06-03 13:22:14,785 [base_deploy.py:log_info()] - Application led_effect: Validity check for git repo passed
+2023-06-03 13:22:14,911 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest status -u no) successfully finished
+2023-06-03 13:22:14,931 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest config --get branch.master.remote) successfully finished
+2023-06-03 13:22:14,951 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest remote get-url origin) successfully finished
+2023-06-03 13:22:15,646 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest fetch origin --prune --progress) successfully finished
+2023-06-03 13:22:15,664 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest merge-base --is-ancestor HEAD origin/master) successfully finished
+2023-06-03 13:22:15,681 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest branch --list) successfully finished
+2023-06-03 13:22:15,701 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-parse HEAD) successfully finished
+2023-06-03 13:22:15,729 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe --always --tags --long --dirty) successfully finished
+2023-06-03 13:22:15,749 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-parse origin/master) successfully finished
+2023-06-03 13:22:15,769 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe origin/master --always --tags --long) successfully finished
+2023-06-03 13:22:15,790 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest rev-list --tags --max-count=1) successfully finished
+2023-06-03 13:22:15,809 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest describe --tags b0c011b4ef9aea19352b90cab7d06383eef555eb) successfully finished
+2023-06-03 13:22:15,829 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest log 00fe721bf352350a92c9d450789dd0e1ba17d55e..origin/master --format="sha:%H%x1Dauthor:%an%x1Ddate:%ct%x1Dsubject:%s%x1Dmessage:%b%x1E" --max-count=100) successfully finished
+2023-06-03 13:22:15,858 [shell_command.py:_check_proc_success()] - Command (git -C /home/pi/crowsnest for-each-ref --count=10 --sort='-creatordate' --format='%(if)%(*objecttype)%(then)%(*objecttype) (*objectname)%(else)%(objecttype) %(objectname)%(end) %(refname)' 'refs/tags') successfully finished
+2023-06-03 13:22:15,861 [git_deploy.py:log_repo_info()] - Git Repo crowsnest Detected:
+Owner: mainsail-crew
+Repository Name: crowsnest
+Path: /home/pi/crowsnest
+Remote: origin
+Branch: master
+Remote URL: https://github.com/mainsail-crew/crowsnest.git
+Current Commit SHA: 00fe721bf352350a92c9d450789dd0e1ba17d55e
+Upstream Commit SHA: 8b54eae98dcb5de73f5aab121805ef018cda5052
+Current Version: v3.0.6-23
+Upstream Version: v4.0.2-2
+Is Dirty: False
+Is Detached: False
+Commits Behind: 30
+Tag Data: {}
+Bound Repo: None
+Diverged: False
+2023-06-03 13:22:15,862 [base_deploy.py:log_info()] - Application crowsnest: Channel: dev, Need Channel Update: False
+2023-06-03 13:22:15,862 [base_deploy.py:log_info()] - Application crowsnest: Validity check for git repo passed
+2023-06-03 14:26:58,224 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 127.0.0.1
